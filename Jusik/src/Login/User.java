@@ -1,31 +1,25 @@
 package Login;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public class User {
 
-    
-    private String userId;
-
-    
-    private String password;
-
-    
-    private String userName;
-
-    
-    private LocalDate registeredDate;
+     String userId;
+     String password;
+     String userName;
+    LocalDateTime registeredDate;
+    long balance;
 
    
     public User() {
     }
 
     
-    public User(String userId, String password, String userName, LocalDate registeredDate) {
+    public User(String userId, String password, String userName, LocalDateTime registeredDate) {
         this.userId = userId;
         this.password = password;
         this.userName = userName;
-        this.registeredDate = registeredDate;
+        this.registeredDate = LocalDateTime.now();
     }
 
     
@@ -54,22 +48,27 @@ public class User {
         this.userName = userName;
     }
 
-    public LocalDate getRegisteredDate() {
+    public LocalDateTime getRegisteredDate() {
         return registeredDate;
     }
 
-    public void setRegisteredDate(LocalDate registeredDate) {
+    public void setRegisteredDate(LocalDateTime registeredDate) {
         this.registeredDate = registeredDate;
+    }
+    public long getBalance() {
+    	return balance;
+    }
+    public void setBalance(long balance) {
+    	this.balance = balance;
     }
 
     
     
     public String toString() {
-        return "User{" +
-                "userId='" + userId + '\'' +
-                ", password='" + password + '\'' +
-                ", userName='" + userName + '\'' +
-                ", registeredDate=" + registeredDate +
-                '}';
+        return String.format("User(userId = '%s',"
+        		+ "userName = '%s',"
+        		+ "registeredDate = %s,"
+        		+ "balance=%,d원}",
+        		userId , userName, registeredDate.toLocalDate(), balance);     		
     }
 }
