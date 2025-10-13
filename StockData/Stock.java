@@ -84,7 +84,6 @@ public class Stock {
         return stocks;
     }
     
-    // --- 4. 유틸리티 메서드 ---
     private static Stock findStockByCode(String code, List<Stock> stocks) {
         for (Stock stock : stocks) {
             if (stock.getStockCode().equals(code)) {
@@ -106,7 +105,6 @@ public class Stock {
         System.out.println("=========================================");
     }
 
-    // --- 5. Main 메서드 (실행 로직) ---
     public static void main(String[] args) {
         
         List<Stock> stockList = loadAllStocks();
