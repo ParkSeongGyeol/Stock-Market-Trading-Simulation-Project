@@ -20,7 +20,7 @@
 |------|-----------|----------------|
 | **박성결** | 거래 엔진 | • Order, Transaction 모델<br>• OrderService, TradeService<br>• 주문 처리 및 체결 로직 |
 | **윤진석** | 포트폴리오 관리 | • Portfolio, Holding 모델<br>• PortfolioService<br>• 자산 관리 및 수익률 계산 |
-| **김민석** | 시장 데이터 | • Stock 모델<br>• StockService, PriceService<br>• 실시간 가격 시뮬레이션 |
+| **김민성** | 시장 데이터 | • Stock 모델<br>• StockService, PriceService<br>• 실시간 가격 시뮬레이션 |
 | **김예지** | 사용자 인터페이스 | • 모든 View 클래스<br>• MainController<br>• 사용자 입출력 처리 |
 | **김정현** | 사용자 시스템 | • User 모델<br>• UserService, AuthService<br>• 회원가입/로그인 기능 |
 
@@ -223,7 +223,7 @@ src/main/Main.java 우클릭 → Run As → Java Application
 
 - 박성결 - 거래 엔진 담당
 - 윤진석 - 포트폴리오 담당
-- 김민석 - 시장 데이터 담당
+- 김민성 - 시장 데이터 담당
 - 김예지 - UI 담당
 - 김정현 - 사용자 시스템 담당
 
