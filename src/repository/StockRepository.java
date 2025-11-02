@@ -12,7 +12,7 @@ public class StockRepository {
     private static final String FILE_PATH = "stock_data.txt";
     private static final int MIN_STOCKS = 10;
 
-    // 1. 내부 클래스로 Stock 모델 정의
+   
     public static class Stock {
         private String code;
         private String name;
@@ -26,7 +26,7 @@ public class StockRepository {
             this.openingPrice = openingPrice;
         }
 
-        // Getter methods (필수)
+       
         public String getCode() { return code; }
         public String getName() { return name; }
         public int getCurrentPrice() { return currentPrice; }
