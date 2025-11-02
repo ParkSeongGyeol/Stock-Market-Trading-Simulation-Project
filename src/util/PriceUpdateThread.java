@@ -24,7 +24,7 @@ public class PriceUpdateThread extends Thread {
     }
 
     private void updatePrice() {
-        // 실제 가격 업데이트 (DB 접근, API 호출 등) 로직 구현
+        
         String currentTime = java.time.LocalTime.now().toString();
         System.out.println("가격 업데이트 수행 시간: " + currentTime);
     }
