@@ -3,6 +3,8 @@ package repository;
 import java.util.HashMap;
 import java.util.Map;
 
+import model.User;
+
 public class UserRepository {
 
     
