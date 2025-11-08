@@ -1,6 +1,5 @@
 package service;
 
-package stockgame;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
