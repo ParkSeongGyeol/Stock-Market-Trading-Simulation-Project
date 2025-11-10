@@ -170,52 +170,52 @@ src/main/Main.java 우클릭 → Run As → Java Application
 ## 📊 개발 일정
 
 ### 1주차: 기본 설계
-| 거래 엔진 (박성결) | 포트폴리오 (윤진석) | 시장 데이터 (김민석) | UI (김예지) | 사용자 시스템 (김정현) |
+| 거래 엔진 (박성결) | 포트폴리오 (윤진석) | 시장 데이터 (김민성) | UI (김예지) | 사용자 시스템 (김정현) |
 |---|---|---|---|---|
 | **Order.java**<br>- orderId, userId, stockCode<br>- orderType, quantity, price<br>- getter/setter 작성 | **Portfolio.java**<br>- userId, cashBalance<br>- totalAssets, totalProfit<br>- getter/setter 작성 | **Stock.java**<br>- stockCode, stockName<br>- currentPrice, previousPrice<br>- getter/setter 작성 | **MainFrame.java**<br>- 메뉴 출력 메서드<br>- "1.로그인 2.회원가입 3.종료"<br>- Scanner 입력 연결 | **User.java**<br>- userId, password, userName<br>- registeredDate<br>- getter/setter 작성 |
 
 ### 2주차: 저장소 구현
-| 거래 엔진 (박성결) | 포트폴리오 (윤진석) | 시장 데이터 (김민석) | UI (김예지) | 사용자 시스템 (김정현) |
+| 거래 엔진 (박성결) | 포트폴리오 (윤진석) | 시장 데이터 (김민성) | UI (김예지) | 사용자 시스템 (김정현) |
 |---|---|---|---|---|
 | **OrderRepository.java**<br>- ArrayList<br>- addOrder()<br>- getOrdersByUserId() | **PortfolioRepository.java**<br>- HashMap<String, Portfolio><br>- createPortfolio()<br>- getPortfolio() | **StockRepository.java**<br>- ArrayList<br>- 10개 종목 초기화<br>- getAllStocks() | **LoginView.java**<br>- showLoginMenu()<br>- ID/PW 입력받기<br>- 입력값 검증 | **UserRepository.java**<br>- HashMap<String, User><br>- addUser()<br>- findUser() |
 
 ### 3주차: 핵심 기능 1
-| 거래 엔진 (박성결) | 포트폴리오 (윤진석) | 시장 데이터 (김민석) | UI (김예지) | 사용자 시스템 (김정현) |
+| 거래 엔진 (박성결) | 포트폴리오 (윤진석) | 시장 데이터 (김민성) | UI (김예지) | 사용자 시스템 (김정현) |
 |---|---|---|---|---|
 | **OrderService.java**<br>- validateBuyOrder()<br>- 잔액 확인 로직<br>- 수량 검증 로직 | **PortfolioService.java**<br>- updateCashBalance()<br>- 입금/출금 처리<br>- 잔액 복구 체크 | **PriceService.java**<br>- updatePrice()<br>- Random 클래스 사용<br>- -5% ~ +5% 계산 | **StockListView.java**<br>- displayStockList()<br>- 종목 번호, 가격<br>- 선택 메뉴 구현 | **UserService.java**<br>- register() 구현<br>- ID 중복 체크<br>- 초기자금 1000만원 |
 
 ### 4주차: 핵심 기능 2
-| 거래 엔진 (박성결) | 포트폴리오 (윤진석) | 시장 데이터 (김민석) | UI (김예지) | 사용자 시스템 (김정현) |
+| 거래 엔진 (박성결) | 포트폴리오 (윤진석) | 시장 데이터 (김민성) | UI (김예지) | 사용자 시스템 (김정현) |
 |---|---|---|---|---|
 | **매수 주문 처리**<br>- processBuyOrder()<br>- 주문 생성 및 저장<br>- 체결 완료 메시지 | **Holding.java**<br>- stockCode, quantity<br>- avgPrice 변수<br>- addHolding() | **StockService.java**<br>- getStockByCode()<br>- getStockPrice()<br>- 종목 검색 | **TradeView.java**<br>- showBuyMenu()<br>- 종목 선택, 수량 입력<br>- 주문 확인 메시지 | **로그인 기능**<br>- login() 구현<br>- 비밀번호 검증<br>- 세션 관리(static) |
 
 ### 5주차: 거래 완성
-| 거래 엔진 (박성결) | 포트폴리오 (윤진석) | 시장 데이터 (김민석) | UI (김예지) | 사용자 시스템 (김정현) |
+| 거래 엔진 (박성결) | 포트폴리오 (윤진석) | 시장 데이터 (김민성) | UI (김예지) | 사용자 시스템 (김정현) |
 |---|---|---|---|---|
 | **매도 주문 처리**<br>- processSellOrder()<br>- 보유 수량 확인<br>- 체드 체결 처리 | **수익률 계산**<br>- calculateProfit()<br>- 평가손익 계산<br>- 수익률(%) 계산 | **PriceUpdateThread.java**<br>- Thread 상속 클래스<br>- 30초마다 업데이트<br>- run() 메서드 | **PortfolioView.java**<br>- displayPortfolio()<br>- 종자산, 현금, 수익률<br>- 보유 종목 리스트 | **로그아웃 기능**<br>- logout() 구현<br>- 세션 정보 초기화<br>- 메인 메뉴 이동 |
 
 ### 6주차: 통합 테스트
-| 거래 엔진 (박성결) | 포트폴리오 (윤진석) | 시장 데이터 (김민석) | UI (김예지) | 사용자 시스템 (김정현) |
+| 거래 엔진 (박성결) | 포트폴리오 (윤진석) | 시장 데이터 (김민성) | UI (김예지) | 사용자 시스템 (김정현) |
 |---|---|---|---|---|
 | **거래 내역 조회**<br>- getOrderHistory()<br>- 최근 거래 10건<br>- 거래 내역 포맷팅 | **포트폴리오 업데이트**<br>- updateAfterTrade()<br>- 매수/매도 후 갱신<br>- 보유 종목 갱신 | **종목 정보 갱신**<br>- refreshAllPrices()<br>- 전체 가격 업데이트<br>- 변동률 계산 | **MainController.java**<br>- 화면 전환 처리<br>- 사용자 입력 처리<br>- 각 기능 연결 | **AuthService.java**<br>- isLoggedIn()<br>- 각 기능별 권한<br>- 미로그인 처리 |
 
 ### 7주차: 예외 처리
-| 거래 엔진 (박성결) | 포트폴리오 (윤진석) | 시장 데이터 (김민석) | UI (김예지) | 사용자 시스템 (김정현) |
+| 거래 엔진 (박성결) | 포트폴리오 (윤진석) | 시장 데이터 (김민성) | UI (김예지) | 사용자 시스템 (김정현) |
 |---|---|---|---|---|
 | **OrderException.java**<br>- try-catch 추가<br>- 잔액 부족 처리<br>- 예러 메시지 개선 | **데이터 검증**<br>- 음수 잔액 방지<br>- 보유 수량 검증<br>- 계산 오류 제크 | **가격 데이터 검증**<br>- 0원 당지 로직<br>- 급등/급락 제한<br>- 데이터 무결성 | **InputValidator.java**<br>- 숫자 입력 검증<br>- 메뉴 선택 범위<br>- 빈값 체크 구현 | **로그인 보안**<br>- 최소 길이 체크<br>- 로그인 실패 처리<br>- 중복 로그인 방지 |
 
 ### 8주차: 기능 개선
-| 거래 엔진 (박성결) | 포트폴리오 (윤진석) | 시장 데이터 (김민석) | UI (김예지) | 사용자 시스템 (김정현) |
+| 거래 엔진 (박성결) | 포트폴리오 (윤진석) | 시장 데이터 (김민성) | UI (김예지) | 사용자 시스템 (김정현) |
 |---|---|---|---|---|
 | **거래 로그 파일**<br>- FileWriter 사용<br>- 날짜별 로그 생성<br>- 거래 기록 저장 | **종목별 수익률**<br>- 개별 종목 손익<br>- 수익 TOP3 조회<br>- 종목 순위 표시 | **실시간 알림**<br>- 5% 이상 변동 알림<br>- 목표가 도달 알림<br>- 콘솔 메시지 표시 | **UI 개선**<br>- 테이블 형태 출력<br>- 색상 코드(ANSI)<br>- 화면 clear 기능 | **UserProfile.java**<br>- 가입일 표시<br>- 총 거래 횟수<br>- 최고 수익률 기록 |
 
 ### 9주차: 테스트
-| 거래 엔진 (박성결) | 포트폴리오 (윤진석) | 시장 데이터 (김민석) | UI (김예지) | 사용자 시스템 (김정현) |
+| 거래 엔진 (박성결) | 포트폴리오 (윤진석) | 시장 데이터 (김민성) | UI (김예지) | 사용자 시스템 (김정현) |
 |---|---|---|---|---|
 | **거래 테스트**<br>- 정상 거래 테스트<br>- 잔액 부족 테스트<br>- 수량 초과 테스트 | **수익률 테스트**<br>- 단일 종목 테스트<br>- 복수 종목 테스트<br>- 손실 상황 테스트 | **가격 변동 테스트**<br>- 랜덤 변경 테스트<br>- 스레드 동작 확인<br>- 데이터 동기화 | **UI 통합 테스트**<br>- 화면 전환 테스트<br>- 잘못된 입력 처리<br>- 종료 처리 확인 | **사용자 테스트**<br>- 중복 가입 테스트<br>- 세션 유지 테스트<br>- 동시 사용자 테스트 |
 
 ### 10주차: 최종 마무리
-| 거래 엔진 (박성결) | 포트폴리오 (윤진석) | 시장 데이터 (김민석) | UI (김예지) | 사용자 시스템 (김정현) |
+| 거래 엔진 (박성결) | 포트폴리오 (윤진석) | 시장 데이터 (김민성성) | UI (김예지) | 사용자 시스템 (김정현) |
 |---|---|---|---|---|
 | **README.md 작성**<br>- 전체 시스템 설명<br>- API 문서 작성<br>- 주요 기능 설명 | **성능 측정**<br>- 응답 시간 측정<br>- 메모리 사용량<br>- 병목 구간 개선 | **DemoDataGenerator**<br>- 샘플 시용 생성<br>- 거래 내역 생성<br>- 시연 시나리오 | **DemoMain.java**<br>- 자동 시연 모드<br>- 주요 기능 하이라이트<br>- 에러 상황 대처 | **최종 테스트**<br>- 전체 기능 테스트<br>- 버그 리스트 작성<br>- 발표 자료 준비 |
 
