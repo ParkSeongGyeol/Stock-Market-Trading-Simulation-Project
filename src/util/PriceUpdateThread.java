@@ -11,7 +11,7 @@ public class PriceUpdateThread extends Thread {
     private final PriceService priceService;
     private volatile boolean running = true; 
     
-    // 실시간 알림 기능: 5% 이상 변동 시 알림을 위한 상수
+    // 실시간 알림 기능 추가: 5% 이상 변동 시 알림을 위한 상수
     private static final double ALERT_PERCENTAGE = 5.0; 
     
     public PriceUpdateThread(StockRepository repository, PriceService priceService) {
@@ -66,12 +66,13 @@ public class PriceUpdateThread extends Thread {
             double change = newPriceInt - oldPriceDouble;
             double changePercent = (change / oldPriceDouble) * 100;
             
-            // ⭐ 5% 이상 변동 알림 로직 
+            //  5% 이상 변동 알림 로직 추가
             if (oldPriceDouble > 0 && Math.abs(changePercent) >= ALERT_PERCENTAGE) {
                 System.out.printf("🚨🚨 [실시간 알림] %s: 5%% 이상 급격한 변동 발생! (%.2f%%) 🚨🚨\n",
                     stock.getName(), changePercent
                 );
             }
+           
             
             stock.setCurrentPrice(newPriceInt); 
             
@@ -85,6 +86,8 @@ public class PriceUpdateThread extends Thread {
 
     public static void main(String[] args) throws InterruptedException {
        
+       
+        StockRepository repository = new StockRepository();
         PriceService priceService = new PriceService(); 
 
        
