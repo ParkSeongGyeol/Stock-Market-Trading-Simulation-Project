@@ -3,7 +3,6 @@ package stockgame;
 import stockgame.StockRepository.Stock;
 import java.util.List;
 
-
 public class PriceUpdateThread extends Thread {
 
     private static final int UPDATE_INTERVAL_SECONDS = 30; // 30초마다 업데이트
@@ -11,7 +10,7 @@ public class PriceUpdateThread extends Thread {
     private final PriceService priceService;
     private volatile boolean running = true; 
     
-    // 실시간 알림 기능 추가: 5% 이상 변동 시 알림을 위한 상수
+    // ⭐ 실시간 알림 기능 추가: 5% 이상 변동 시 알림을 위한 상수
     private static final double ALERT_PERCENTAGE = 5.0; 
     
     public PriceUpdateThread(StockRepository repository, PriceService priceService) {
@@ -66,13 +65,12 @@ public class PriceUpdateThread extends Thread {
             double change = newPriceInt - oldPriceDouble;
             double changePercent = (change / oldPriceDouble) * 100;
             
-            //  5% 이상 변동 알림 로직 추가
+            // ⭐ 5% 이상 변동 알림 로직
             if (oldPriceDouble > 0 && Math.abs(changePercent) >= ALERT_PERCENTAGE) {
                 System.out.printf("🚨🚨 [실시간 알림] %s: 5%% 이상 급격한 변동 발생! (%.2f%%) 🚨🚨\n",
                     stock.getName(), changePercent
                 );
             }
-           
             
             stock.setCurrentPrice(newPriceInt); 
             
@@ -81,12 +79,18 @@ public class PriceUpdateThread extends Thread {
             );
         }
         
-        System.out.println("--- 주식 가격 업데이트 완료 ---\n");
+        System.out.println("--- 주식 가격 업데이트 완료 ---");
+        
+        
+        System.out.println("💾 업데이트된 주식 정보를 파일에 저장합니다.");
+        stockgame.Stock.saveAllStocks(repository.getAllStocks()); 
+        System.out.println("-----------------------------------------\n");
+      
     }
 
     public static void main(String[] args) throws InterruptedException {
        
-       
+     
         StockRepository repository = new StockRepository();
         PriceService priceService = new PriceService(); 
 
@@ -110,5 +114,14 @@ public class PriceUpdateThread extends Thread {
         } else {
             System.out.println("✅ 업데이트 스레드가 안전하게 종료되었습니다.");
         }
+        
+        // ⭐ 수정된 부분: 파일 저장 로직 (스레드 종료 후 최종 변경 사항 저장)
+        System.out.println("\n[메인] 최종 업데이트된 주식 정보를 파일에 저장합니다.");
+        try {
+             stockgame.Stock.saveAllStocks(repository.getAllStocks());
+        } catch (Exception e) {
+            System.err.println("❌ 파일 저장 중 오류 발생: " + e.getMessage());
+        }
+        // -----------------------------------------------------------------
     }
 }
