@@ -1,4 +1,4 @@
-package model;
+package stockgame;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -45,12 +45,25 @@ public class Stock {
     }
     
     // --- 3. 데이터 관리 메서드 (저장/불러오기) ---
-    public static void saveAllStocks(List<Stock> stocks) {
+    
+    public static void saveAllStocks(List stocks) { 
         try (PrintWriter writer = new PrintWriter(FILE_NAME)) {
-            for (Stock stock : stocks) {
-                writer.printf("%s,%s,%d,%d\n", 
+            for (Object obj : stocks) {
+                
+                // 1. StockRepository.Stock 객체 처리
+                if (obj instanceof stockgame.StockRepository.Stock) {
+                    stockgame.StockRepository.Stock stockRepo = (stockgame.StockRepository.Stock) obj;
+                     writer.printf("%s,%s,%d,%d\n", 
+                              stockRepo.getCode(), stockRepo.getName(), 
+                              stockRepo.getCurrentPrice(), stockRepo.getOpeningPrice());
+                
+                
+                } else if (obj instanceof Stock) {
+                    Stock stock = (Stock) obj;
+                    writer.printf("%s,%s,%d,%d\n", 
                               stock.stockCode, stock.stockName, 
                               stock.currentPrice, stock.previousPrice);
+                }
             }
             System.out.println("✅ 총 " + stocks.size() + "개 종목 정보가 " + FILE_NAME + "에 저장되었습니다.");
         } catch (FileNotFoundException e) {
@@ -131,7 +144,7 @@ public class Stock {
                     System.out.println("\n[새 주식 정보 등록]");
                     String code;
                     
-                    // ★★★ 종목 코드 숫자 유효성 검사 루프 ★★★
+                 
                     while (true) {
                         System.out.print("종목 코드를 입력하세요 (숫자만 허용): ");
                         code = scanner.nextLine().trim();
@@ -142,7 +155,7 @@ public class Stock {
                             System.out.println("⛔ 경고: 종목 코드는 숫자만 입력해야 합니다. 다시 입력해 주세요.");
                         }
                     }
-                    // ★★★ 루프 끝 ★★★
+                    
                     
                     if (findStockByCode(code, stockList) != null) {
                         System.out.println("⛔ 경고: 종목코드 " + code + "는 이미 등록되어 있습니다. 등록을 취소합니다.");
@@ -195,7 +208,7 @@ public class Stock {
                     }
                     break;
                     
-                case 4: // 주식 정보 삭제
+                case 4: 
                     System.out.println("\n[주식 정보 삭제]");
                     displayStocks(stockList);
                     if (stockList.isEmpty()) break;
@@ -213,7 +226,7 @@ public class Stock {
                     }
                     break;
                     
-                case 5: // 저장하고 종료
+                case 5: 
                     saveAllStocks(stockList);
                     System.out.println("\n프로그램을 종료합니다.");
                     return;
