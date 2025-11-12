@@ -1,4 +1,4 @@
-package service;
+package stockgame;
 
 import stockgame.StockRepository.Stock; 
 import java.util.List;
