@@ -1,44 +1,111 @@
-package util;
+package stockgame;
+
+import stockgame.StockRepository.Stock;
+import java.util.List;
+
 
 public class PriceUpdateThread extends Thread {
 
+    private static final int UPDATE_INTERVAL_SECONDS = 30; // 30초마다 업데이트
+    private final StockRepository repository;
+    private final PriceService priceService;
+    private volatile boolean running = true; 
+    
+    // 실시간 알림 기능: 5% 이상 변동 시 알림을 위한 상수
+    private static final double ALERT_PERCENTAGE = 5.0; 
+    
+    public PriceUpdateThread(StockRepository repository, PriceService priceService) {
+        this.repository = repository;
+        this.priceService = priceService;
+        this.setName("PriceUpdater"); 
+    }
+    
+    public void stopRunning() {
+        this.running = false;
+        this.interrupt(); 
+    }
+
     @Override
     public void run() {
-        while (true) {
-            try {
-                // 가격 업데이트 로직 실행
-                updatePrice();
+        System.out.printf("⭐ [%s] 스레드가 %d초 간격으로 가격 업데이트를 시작합니다.\n", 
+            getName(), UPDATE_INTERVAL_SECONDS);
 
-                // 30초 대기
-                Thread.sleep(30000); 
+        while (running) {
+            try {
+                updateAllStockPrices();
+                Thread.sleep(UPDATE_INTERVAL_SECONDS * 1000); 
 
             } catch (InterruptedException e) {
-                // 스레드 중단 요청 시 종료
-                System.out.println("PriceUpdateThread가 중단되었습니다.");
                 Thread.currentThread().interrupt(); 
-                break;
+                System.out.printf("🛑 [%s] 스레드가 외부 요청으로 종료됩니다.\n", getName());
+                this.running = false; 
             } catch (Exception e) {
-                System.err.println("가격 업데이트 중 오류 발생: " + e.getMessage());
+                System.err.printf("❌ [%s] 스레드 실행 중 예상치 못한 오류 발생: %s\n", getName(), e.getMessage());
+                try { Thread.sleep(5000); } catch (InterruptedException ignored) { Thread.currentThread().interrupt(); }
             }
         }
+        System.out.printf("✅ [%s] 스레드 실행이 완전히 종료되었습니다.\n", getName());
+    }
+    
+    private void updateAllStockPrices() {
+        List<Stock> stockList = repository.getAllStocks(); 
+        
+        if (stockList.isEmpty()) {
+            System.out.println("⚠️ 업데이트할 종목이 없습니다.");
+            return;
+        }
+        
+        System.out.println("\n--- [" + getName() + "] 주식 가격 업데이트 시작 ---");
+        
+        for (Stock stock : stockList) {
+            
+            double oldPriceDouble = (double) stock.getCurrentPrice();
+            double newPriceDouble = priceService.updatePrice(oldPriceDouble);
+            int newPriceInt = (int) Math.round(newPriceDouble); 
+
+            double change = newPriceInt - oldPriceDouble;
+            double changePercent = (change / oldPriceDouble) * 100;
+            
+            // ⭐ 5% 이상 변동 알림 로직 
+            if (oldPriceDouble > 0 && Math.abs(changePercent) >= ALERT_PERCENTAGE) {
+                System.out.printf("🚨🚨 [실시간 알림] %s: 5%% 이상 급격한 변동 발생! (%.2f%%) 🚨🚨\n",
+                    stock.getName(), changePercent
+                );
+            }
+            
+            stock.setCurrentPrice(newPriceInt); 
+            
+            System.out.printf("   [코드: %s] %s: 이전가=%.0f -> **현재가=%d** (변동률: %.2f%%)\n",
+                stock.getCode(), stock.getName(), oldPriceDouble, newPriceInt, changePercent
+            );
+        }
+        
+        System.out.println("--- 주식 가격 업데이트 완료 ---\n");
     }
 
-    private void updatePrice() {
-        
-        String currentTime = java.time.LocalTime.now().toString();
-        System.out.println("가격 업데이트 수행 시간: " + currentTime);
-    }
+    public static void main(String[] args) throws InterruptedException {
+       
+        PriceService priceService = new PriceService(); 
 
-    public static void main(String[] args) {
-        PriceUpdateThread thread = new PriceUpdateThread();
-        thread.start();
+       
+        PriceUpdateThread updateThread = new PriceUpdateThread(repository, priceService);
+        updateThread.start(); 
         
-        try {
-            // 90초 후 스레드 종료 예시
-            Thread.sleep(90000); 
-            thread.interrupt(); 
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+        
+        System.out.println("\n[메인] 65초 동안 대기하면서 업데이트를 관찰합니다...");
+        Thread.sleep(65000); 
+        
+      
+        System.out.println("\n[메인] 업데이트 스레드 종료 요청...");
+        updateThread.stopRunning();
+        
+        
+        updateThread.join(5000); 
+
+        if (updateThread.isAlive()) {
+            System.out.println("⚠️ 스레드가 5초 내에 종료되지 않았습니다.");
+        } else {
+            System.out.println("✅ 업데이트 스레드가 안전하게 종료되었습니다.");
         }
     }
 }
