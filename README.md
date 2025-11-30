@@ -92,15 +92,21 @@ StockMarketProject/
 - JDK 18 이상
 - Eclipse IDE (또는 VS Code)
 
-### 실행 방법
+### 실행 방법 (간편)
+프로젝트 폴더 내의 `run.bat` 파일을 더블 클릭하거나 터미널에서 실행하세요.
+```cmd
+./run.bat
+```
 
-1. **프로젝트 실행**
+### 실행 방법 (수동)
+1. **컴파일**
 ```bash
-# 컴파일
-javac -d bin -encoding UTF-8 -sourcepath src src/view/MainView.java src/model/*.java src/repository/*.java src/service/*.java src/util/*.java
+javac -d bin -encoding UTF-8 -sourcepath src src/main/Main.java src/view/MainView.java src/model/*.java src/repository/*.java src/service/*.java src/util/*.java
+```
 
-# 실행
-java -cp bin view.MainView
+2. **실행**
+```bash
+java -cp bin main.Main
 ```
 
 ---
