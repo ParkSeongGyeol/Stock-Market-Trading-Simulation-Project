@@ -1,6 +1,7 @@
-package stockgame;
+package service;
 
-import stockgame.StockRepository.Stock; 
+import model.Stock;
+import repository.StockRepository;
 import java.util.List;
 import java.util.Scanner; 
 import java.util.stream.Collectors;
@@ -20,7 +21,7 @@ public class StockService {
         }
 
         return allStocks.stream()
-                .filter(stock -> stock.getCode().equals(code))
+                .filter(stock -> stock.getStockCode().equals(code))
                 .findFirst()
                 .orElse(null);
     }
@@ -40,8 +41,8 @@ public class StockService {
 
         return repository.getAllStocks().stream()
                 .filter(stock -> 
-                    stock.getName().toLowerCase().contains(lowerCaseKeyword) || // 종목명 부분 일치
-                    stock.getCode().contains(lowerCaseKeyword)                  // 종목 코드 부분 일치
+                    stock.getStockName().toLowerCase().contains(lowerCaseKeyword) || // 종목명 부분 일치
+                    stock.getStockCode().contains(lowerCaseKeyword)                  // 종목 코드 부분 일치
                 )
                 .collect(Collectors.toList());
     }

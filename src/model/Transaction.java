@@ -1,6 +1,7 @@
 package model;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class Transaction {
 	// 6주차 요구사항: 거래 내역 모델
@@ -13,76 +14,92 @@ public class Transaction {
 	private double price;
 	private LocalDateTime transactionDate;
 
+	public Transaction(String transactionId, String orderId, String userId, String stockCode, String transactionType,
+			int quantity, double price) {
+		this.transactionId = transactionId;
+		this.orderId = orderId;
+		this.userId = userId;
+		this.stockCode = stockCode;
+		this.transactionType = transactionType;
+		this.quantity = quantity;
+		this.price = price;
+		this.transactionDate = LocalDateTime.now();
+	}
+
 	// getter/setter
 	public String getTransactionId() {
-		// TODO: 구현 필요
-		return null;
+		return transactionId;
 	}
 
 	public void setTransactionId(String transactionId) {
-		// TODO: 구현 필요
+		this.transactionId = transactionId;
 	}
 
 	public String getOrderId() {
-		// TODO: 구현 필요
-		return null;
+		return orderId;
 	}
 
 	public void setOrderId(String orderId) {
-		// TODO: 구현 필요
+		this.orderId = orderId;
 	}
 
 	public String getUserId() {
-		// TODO: 구현 필요
-		return null;
+		return userId;
 	}
 
 	public void setUserId(String userId) {
-		// TODO: 구현 필요
+		this.userId = userId;
 	}
 
 	public String getStockCode() {
-		// TODO: 구현 필요
-		return null;
+		return stockCode;
 	}
 
 	public void setStockCode(String stockCode) {
-		// TODO: 구현 필요
+		this.stockCode = stockCode;
 	}
 
 	public String getTransactionType() {
-		// TODO: 구현 필요
-		return null;
+		return transactionType;
 	}
 
 	public void setTransactionType(String transactionType) {
-		// TODO: 구현 필요
+		this.transactionType = transactionType;
 	}
 
 	public int getQuantity() {
-		// TODO: 구현 필요
-		return 0;
+		return quantity;
 	}
 
 	public void setQuantity(int quantity) {
-		// TODO: 구현 필요
+		this.quantity = quantity;
 	}
 
 	public double getPrice() {
-		// TODO: 구현 필요
-		return 0.0;
+		return price;
 	}
 
 	public void setPrice(double price) {
-		// TODO: 구현 필요
+		this.price = price;
 	}
 
 	public LocalDateTime getTransactionDate() {
-		// TODO: 구현 필요
-		return null;
+		return transactionDate;
 	}
 
 	public void setTransactionDate(LocalDateTime transactionDate) {
-		// TODO: 구현 필요
+		this.transactionDate = transactionDate;
+	}
+
+	@Override
+	public String toString() {
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+		return String.format("[%s] %s | %s | %s | %d주 | @%,.0f원", 
+				transactionDate.format(formatter), 
+				transactionType.equals("BUY") ? "매수" : "매도",
+				stockCode, 
+				userId,
+				quantity, 
+				price);
 	}
 }
