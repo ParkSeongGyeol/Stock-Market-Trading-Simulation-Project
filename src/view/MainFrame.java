@@ -34,6 +34,7 @@ public class MainFrame extends JFrame {
     private OrderService orderService;
     private PortfolioService portfolioService;
     private AuthService authService;
+    private util.PriceUpdateThread priceUpdateThread;
 
     public MainFrame() {
         setTitle("주식 거래 시뮬레이션");
@@ -43,6 +44,16 @@ public class MainFrame extends JFrame {
 
         initServices();
         initViews();
+
+        // 애플리케이션 종료 시 스레드 중지
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+                if (priceUpdateThread != null) {
+                    priceUpdateThread.stopRunning();
+                }
+            }
+        });
 
         setVisible(true);
     }
@@ -60,6 +71,11 @@ public class MainFrame extends JFrame {
         stockService = new StockService(stockRepo);
         portfolioService = new PortfolioService(portfolioRepo);
         orderService = new OrderService(orderRepo, stockService, portfolioService, authService);
+        
+        // Market Data 초기화 및 스레드 시작
+        service.PriceService priceService = new service.PriceService();
+        priceUpdateThread = new util.PriceUpdateThread(stockRepo, priceService);
+        priceUpdateThread.start();
 
         // 테스트 데이터 생성
         initTestData(userRepo, portfolioRepo);

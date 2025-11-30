@@ -1,7 +1,6 @@
-package stockgame;
+package service;
 
 import java.util.Random;
-
 
 public class PriceService {
 
