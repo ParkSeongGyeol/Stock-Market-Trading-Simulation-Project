@@ -34,10 +34,12 @@ public class StockListView extends JPanel {
 
         JButton btnBuy = new JButton("매수/매도");
         JButton btnPortfolio = new JButton("내 포트폴리오");
+        JButton btnHistory = new JButton("거래 내역");
         JButton btnLogout = new JButton("로그아웃");
         JPanel btnPanel = new JPanel();
         btnPanel.add(btnBuy);
         btnPanel.add(btnPortfolio);
+        btnPanel.add(btnHistory);
         btnPanel.add(btnLogout);
         add(btnPanel, BorderLayout.SOUTH);
 
@@ -61,6 +63,8 @@ public class StockListView extends JPanel {
         });
         
         btnPortfolio.addActionListener(e -> mainFrame.showPortfolio());
+        
+        btnHistory.addActionListener(e -> mainFrame.showHistory());
 
         btnLogout.addActionListener(e -> mainFrame.showLogin());
     }

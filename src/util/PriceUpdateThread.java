@@ -15,6 +15,17 @@ public class PriceUpdateThread extends Thread {
     // ⭐ 실시간 알림 기능 추가: 5% 이상 변동 시 알림을 위한 상수
     private static final double ALERT_PERCENTAGE = 5.0; 
     
+    // 알림 리스너 인터페이스 정의
+    public interface PriceAlertListener {
+        void onPriceAlert(String message);
+    }
+    
+    private PriceAlertListener alertListener;
+    
+    public void setPriceAlertListener(PriceAlertListener listener) {
+        this.alertListener = listener;
+    }
+    
     public PriceUpdateThread(StockRepository repository, PriceService priceService) {
         this.repository = repository;
         this.priceService = priceService;
@@ -69,9 +80,12 @@ public class PriceUpdateThread extends Thread {
             
             // ⭐ 5% 이상 변동 알림 로직
             if (oldPriceDouble > 0 && Math.abs(changePercent) >= ALERT_PERCENTAGE) {
-                System.out.printf("🚨🚨 [실시간 알림] %s: 5%% 이상 급격한 변동 발생! (%.2f%%) 🚨🚨\n",
-                    stock.getStockName(), changePercent
-                );
+                String msg = String.format("🚨 [급등락 알림] %s: %.2f%% 변동!", stock.getStockName(), changePercent);
+                System.out.println(msg);
+                
+                if (alertListener != null) {
+                    alertListener.onPriceAlert(msg);
+                }
             }
             
             stock.setCurrentPrice(newPriceInt); 

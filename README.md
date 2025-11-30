@@ -32,7 +32,7 @@
 - **IDE**: Eclipse IDE
 - **Version Control**: Git / GitHub
 - **Build Tool**: Eclipse Default Builder
-- **UI**: Console Application
+- **UI**: Java Swing GUI
 
 ---
 
@@ -44,7 +44,7 @@ StockMarketProject/
 ├── src/
 │   ├── main/
 │   │   ├── Main.java                    # 프로그램 시작점
-│   │   └── DemoMain.java                 # 시연용 메인
+│   │   └── TestTrading.java             # 테스트용 메인
 │   │
 │   ├── model/                           # 데이터 모델 (엔티티)
 │   │   ├── User.java                    # 사용자 정보
@@ -54,7 +54,7 @@ StockMarketProject/
 │   │   ├── Holding.java                 # 보유 주식 정보
 │   │   └── Transaction.java             # 거래 내역
 │   │
-│   ├── repository/                      # 데이터 저장소
+│   ├── repository/                      # 데이터 저장소 (In-Memory)
 │   │   ├── UserRepository.java          # 사용자 데이터 관리
 │   │   ├── StockRepository.java         # 종목 데이터 관리
 │   │   ├── OrderRepository.java         # 주문 데이터 관리
@@ -68,30 +68,19 @@ StockMarketProject/
 │   │   ├── PortfolioService.java        # 포트폴리오 서비스
 │   │   └── PriceService.java            # 가격 관리 서비스
 │   │
-│   ├── view/                            # 화면 (콘솔 UI)
-│   │   ├── MainView.java                # 메인 메뉴 화면
+│   ├── view/                            # 화면 (Swing GUI)
+│   │   ├── MainView.java                # 메인 실행 클래스
+│   │   ├── MainFrame.java               # 메인 프레임 (화면 전환 관리)
 │   │   ├── LoginView.java               # 로그인 화면
 │   │   ├── StockListView.java           # 종목 리스트 화면
 │   │   ├── TradeView.java               # 매수/매도 화면
-│   │   └── PortfolioView.java           # 포트폴리오 화면
+│   │   ├── PortfolioView.java           # 포트폴리오 화면
+│   │   └── TransactionHistoryView.java  # 거래 내역 화면
 │   │
-│   ├── controller/                      # 컨트롤러
-│   │   ├── MainController.java          # 메인 컨트롤러
-│   │   ├── TradeController.java         # 거래 컨트롤러
-│   │   └── UserController.java          # 사용자 컨트롤러
-│   │
-│   ├── util/                            # 유틸리티
-│   │   ├── InputValidator.java          # 입력값 검증
-│   │   ├── PriceUpdateThread.java       # 가격 업데이트 스레드
-│   │   └── SessionManager.java          # 세션 관리
-│   │
-│   └── exception/                       # 예외 클래스
-│       ├── InsufficientBalanceException.java
-│       └── InvalidOrderException.java
+│   └── util/                            # 유틸리티
+│       └── PriceUpdateThread.java       # 가격 업데이트 스레드
 │
-├── resources/                            # 리소스 파일
-├── doc/                                  # 문서
-├── .gitignore                           # Git ignore 파일
+├── bin/                                  # 컴파일된 클래스 파일
 └── README.md                            # 프로젝트 설명서
 ```
 
@@ -101,49 +90,38 @@ StockMarketProject/
 
 ### Prerequisites
 - JDK 18 이상
-- Eclipse IDE
-- Git
+- Eclipse IDE (또는 VS Code)
 
-### 설치 및 실행
+### 실행 방법
 
-1. **Repository Clone**
+1. **프로젝트 실행**
 ```bash
-git clone https://github.com/[username]/StockMarketProject.git
-cd StockMarketProject
-```
+# 컴파일
+javac -d bin -encoding UTF-8 -sourcepath src src/view/MainView.java src/model/*.java src/repository/*.java src/service/*.java src/util/*.java
 
-2. **Eclipse에서 프로젝트 Import**
-```
-File → Import → General → Existing Projects into Workspace
-→ Select root directory → Browse → StockMarketProject 선택
-→ Finish
-```
-
-3. **프로젝트 실행**
-```
-src/main/Main.java 우클릭 → Run As → Java Application
+# 실행
+java -cp bin view.MainView
 ```
 
 ---
 
 ## 💡 주요 기능
 
-### ✅ MVP 기능 (1-4주차)
+### ✅ MVP 기능 (완료)
 - [x] 회원가입 및 로그인
 - [x] 초기 자금 1,000만원 자동 부여
-- [x] 종목 리스트 조회 (10-20개 주요 종목)
+- [x] 종목 리스트 조회 (GUI)
 - [x] 시장가 매수/매도 주문
-- [x] 실시간 가격 변동 시뮬레이션 (30초 간격, ±5%)
-- [x] 포트폴리오 조회 (총 자산, 수익률)
-- [x] 거래 내역 조회
+- [x] 실시간 가격 변동 시뮬레이션 (5초 간격, ±5%)
+- [x] 포트폴리오 조회 (GUI)
+- [x] 거래 내역 조회 (GUI)
+- [x] 실시간 급등락 알림 (GUI Popup)
 
-### 🔄 추가 예정 기능 (5-8주차)
+### 🔄 추가 예정 기능
 - [ ] 지정가 주문
 - [ ] 종목별 상세 수익률
 - [ ] 거래량 데이터
 - [ ] 간단한 차트
-- [ ] 친구 시스템
-- [ ] 실시간 알림
 
 ---
 

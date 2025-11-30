@@ -27,6 +27,7 @@ public class MainFrame extends JFrame {
     private StockListView stockListView;
     private TradeView tradeView;
     private PortfolioView portfolioView;
+    private TransactionHistoryView historyView;
 
     // Services
     private UserService userService;
@@ -75,6 +76,14 @@ public class MainFrame extends JFrame {
         // Market Data 초기화 및 스레드 시작
         service.PriceService priceService = new service.PriceService();
         priceUpdateThread = new util.PriceUpdateThread(stockRepo, priceService);
+        
+        // 알림 리스너 등록
+        priceUpdateThread.setPriceAlertListener(msg -> {
+            SwingUtilities.invokeLater(() -> {
+                JOptionPane.showMessageDialog(this, msg, "시장 경보", JOptionPane.WARNING_MESSAGE);
+            });
+        });
+        
         priceUpdateThread.start();
 
         // 테스트 데이터 생성
@@ -99,11 +108,13 @@ public class MainFrame extends JFrame {
         stockListView = new StockListView(this);
         tradeView = new TradeView(this, orderService);
         portfolioView = new PortfolioView(this);
+        historyView = new TransactionHistoryView(this, orderService);
 
         mainPanel.add(loginView, "Login");
         mainPanel.add(stockListView, "StockList");
         mainPanel.add(tradeView, "Trade");
         mainPanel.add(portfolioView, "Portfolio");
+        mainPanel.add(historyView, "History");
 
         add(mainPanel);
         
@@ -155,6 +166,19 @@ public class MainFrame extends JFrame {
         
         cardLayout.show(mainPanel, "Portfolio");
         setTitle("나의 포트폴리오");
+    }
+    
+    public void showHistory() {
+        User user = authService.getCurrentUser();
+        if (user == null) {
+            JOptionPane.showMessageDialog(this, "로그인이 필요합니다.");
+            showLogin();
+            return;
+        }
+        
+        historyView.updateHistory(user.getUserId());
+        cardLayout.show(mainPanel, "History");
+        setTitle("거래 내역");
     }
 
     public void handleLogin(String id, String pw) {
