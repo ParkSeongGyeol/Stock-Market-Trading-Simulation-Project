@@ -31,13 +31,16 @@ public class TestTrading {
 		PortfolioService portfolioService = new PortfolioService(portfolioRepo);
 		
 		OrderRepository orderRepo = new OrderRepository();
-		OrderService orderService = new OrderService(orderRepo, stockService, portfolioService);
+		OrderService orderService = new OrderService(orderRepo, stockService, portfolioService, authService);
 
 		// 2. 테스트 데이터 준비
 		// 사용자 생성 (1000만원 보유)
 		User user = new User("testUser", "1234", "테스터", null);
 		user.setBalance(10000000);
 		userRepo.addUser(user);
+		
+		// 로그인 처리 (AuthService를 통해 현재 사용자 설정)
+		authService.setLoggedInUser(user);
 		
 		// 포트폴리오 초기화 (사용자 잔액과 동기화)
 		portfolioRepo.createPortfolio(user.getUserId(), user.getBalance());
@@ -57,20 +60,23 @@ public class TestTrading {
 		// 3. 매수 테스트
 		System.out.println("\n[매수 테스트]");
 		int buyQty = 10;
-		boolean buyResult = orderService.processBuyOrder(user.getUserId(), stockCode, buyQty);
+		// userId 파라미터 제거됨
+		boolean buyResult = orderService.processBuyOrder(stockCode, buyQty);
 		System.out.println("매수 성공 여부: " + buyResult);
-		System.out.println("매수 후 잔액: " + user.getBalance());
+		System.out.println("매수 후 포트폴리오 잔액: " + (long)portfolioService.getPortfolio(user.getUserId()).getCashBalance());
 
 		// 4. 매도 테스트
 		System.out.println("\n[매도 테스트]");
 		int sellQty = 5;
-		boolean sellResult = orderService.processSellOrder(user.getUserId(), stockCode, sellQty);
+		// userId 파라미터 제거됨
+		boolean sellResult = orderService.processSellOrder(stockCode, sellQty);
 		System.out.println("매도 성공 여부: " + sellResult);
-		System.out.println("매도 후 잔액: " + user.getBalance());
+		System.out.println("매도 후 포트폴리오 잔액: " + (long)portfolioService.getPortfolio(user.getUserId()).getCashBalance());
 
 		// 5. 거래 내역 조회 테스트
 		System.out.println("\n[거래 내역 조회]");
-		List<Transaction> history = orderService.getOrderHistory(user.getUserId());
+		// userId 파라미터 제거됨
+		List<Transaction> history = orderService.getOrderHistory();
 		for (Transaction tx : history) {
 			System.out.println(tx);
 		}
